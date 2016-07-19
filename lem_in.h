@@ -18,6 +18,7 @@
 #include <stdlib.h>
 typedef struct		s_room
 {
+	char			*name;
 	int				weight;
 	int				s_e_room;
 	int				ant_stat;

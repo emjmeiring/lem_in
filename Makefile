@@ -14,11 +14,11 @@ NAME=lem_in
 
 CC=gcc
 
-CFLAGS=-Wall -Wextra -Werror -g
+CFLAGS=-Wall -Wextra -g#-Werror
 
 RM=rm -f
 
-INC_LIBFT= -L./libft -lft
+INC_LIBFT= -L ./libft -lft
 
 FCLEAN_LIB=make -C libft/ fclean
 
@@ -32,9 +32,9 @@ OBJ = main.o reading.o
 
 $(NAME):
 	@echo "Compiling binaries..."
-#	@make re -C libft/	
+	@make re -C libft/	
 	@$(CC) $(CFLAGS) $(PATH_HD) -c $(SRC)
-	@$(CC) -o $(NAME) $(OBJ) -lm $(INC_LIBFT)
+	@$(CC) -o $(NAME) $(OBJ) $(INC_LIBFT)
 	@echo "*********Compilation was successful!**********"
 
 all: $(NAME)

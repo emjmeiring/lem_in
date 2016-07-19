@@ -16,12 +16,13 @@ t_room	*add_room(char **room_specs, int room_stat)
 {
 	t_room	*a_room;
 	
-	if (!room_specs[0] || !room_specs[1] || !room_specs[2])
+	if (!room_specs[0][0] || !room_specs[1][0] || !room_specs[2][0])
 	{
 		write(1, "ERROR: why u not specify a valid room, IDIOT!!GOSH\n", 51);
 		exit(0);
 	}
 	a_room = (t_room *)malloc(sizeof(t_room));
+	a_room->name = room_specs[0];
 	a_room->weight = 0;
 	a_room->s_e_room = room_stat;
 	a_room->ant_stat = 0;
