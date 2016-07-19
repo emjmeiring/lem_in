@@ -14,13 +14,11 @@ NAME=lem_in
 
 CC=gcc
 
-CFLAGS=-Wall -Wextra -g#-Werror
+FLAG=-Wall -Wextra -g#-Werror
 
 RM=rm -f
 
-INC_LIBFT= -L ./libft -lft
-
-FCLEAN_LIB=make -C libft/ fclean
+INC= -L ./libft -lft
 
 PATH_SRC= ./
 
@@ -30,39 +28,26 @@ SRC = $(PATH_SRC)main.c $(PATH_SRC)reading.c
 
 OBJ = main.o reading.o
 
-$(NAME):
-	@echo "Compiling binaries..."
-	@make re -C libft/	
-	@$(CC) $(CFLAGS) $(PATH_HD) -c $(SRC)
-	@$(CC) -o $(NAME) $(OBJ) $(INC_LIBFT)
-	@echo "*********Compilation was successful!**********"
+.PHONY: all clean fclean re
 
 all: $(NAME)
 
-x11:
-	@echo "Compiling binaries..."
-	@make re -C libft/	
-	@$(CC) $(CFLAGS) $(PATH_HD) -c $(SRC)
-	@$(CC) -o $(NAME) $(OBJ) -lm $(INC_LIBFT) 
-	@echo "Compilation was successful!------^^&^&^"
+%.o: %.c
+	@echo "Compilied\t\033[33m$@\033[0m"
+	@$(CC) $(FLAG) -c -o $@ $^ $(PATH_HD)
+
+$(NAME): $(OBJ)
+		@echo "Linking objects with the libraries..."
+		@make re -C libft/
+		@$(CC) $(FLAG) $(OBJ) -o $@ $(PATH_HD) $(INC)
+		@echo "\033[32mDone!\033[0m\nManufactured\t\033[31m$@\033[0m..."
 
 clean:
-	@echo "Cleaning object files..."
-	@$(RM) $(OBJ)
-	@echo "Cleaning libft object files..."
-	@make -C libft/ clean
-	@echo "Done cleaning!"
-fclean:
-	@echo "Cleaning object files..."
-	@$(RM) $(OBJ1) $(OBJ2)
-	@echo "Cleaning libft object & binary files..."
-#	@make -C libft/ fclean
-	@echo "Cleaning binaries..."
-	@$(RM) $(CHEC) $(PUSH)
-	@echo "Done cleaning!"
+		@echo "Cleaning\t\033[34m$(NAME)\033[m"
+		@$(RM) $(OBJ)
+		@echo "**********Done!********"
 
-norme:
-	@clear
-	@norminette $(SRC)
+fclean: clean
+		@$(RM) $(NAME)
 
 re: fclean all

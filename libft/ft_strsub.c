@@ -18,10 +18,11 @@ char	*ft_strsub(char const *s, unsigned int start, size_t len)
 	size_t	i;
 
 	i = -1;
-	news = malloc(sizeof(char) * len);
+	news = malloc(sizeof(char) * (len + 1));
 	if (!news || !len || !s)
 		return (NULL);
 	while (++i < len)
 		*(news + i) = *(s + start + i);
+	*(news + i) = '\0';
 	return (news);
 }
