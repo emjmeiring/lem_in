@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME=checker
+NAME=lem_in
 
 CC=gcc
 
@@ -26,15 +26,15 @@ PATH_SRC= ./
 
 PATH_HD= -I ./
 
-SRC = $(PATH_SRC)main.c
+SRC = $(PATH_SRC)main.c $(PATH_SRC)reading.c
 
-OBJ = .o
+OBJ = main.o reading.o
 
 $(NAME):
 	@echo "Compiling binaries..."
 #	@make re -C libft/	
-	@$(CC) $(CFLAGS) $(PATH_HD) -c $(SRC1)
-	@$(CC) -o $(CHEC) $(OBJ1) -lm $(INC_LIBFT) 
+	@$(CC) $(CFLAGS) $(PATH_HD) -c $(SRC)
+	@$(CC) -o $(NAME) $(OBJ) -lm $(INC_LIBFT)
 	@echo "*********Compilation was successful!**********"
 
 all: $(NAME)

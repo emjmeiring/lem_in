@@ -12,53 +12,80 @@
 
 #include "lem_in.h"
 
-char		**ft_remalloc(char **farm_layout, int *size)
+t_room	*add_room(char **room_specs, int room_stat)
 {
-	int		i;
-	char	**new_space;
-
-	i = 0;
-	new_space = (char **)malloc(sizeof(char *) * (*size) * 2);
-	while (farm_layout[i])
+	t_room	*a_room;
+	
+	if (!room_specs[0] || !room_specs[1] || !room_specs[2])
 	{
-		new_space[i] = farm_layout[i];
-		i++;
+		write(1, "ERROR: why u not specify a valid room, IDIOT!!GOSH\n", 51);
+		exit(0);
 	}
-	*size += *size;
-	ft_memdel((void **)farm_layout);
-	return (new_space);
+	a_room = (t_room *)malloc(sizeof(t_room));
+	a_room->weight = 0;
+	a_room->s_e_room = room_stat;
+	a_room->ant_stat = 0;
+	a_room->x = ft_atoi(room_specs[1]);
+	a_room->y = ft_atoi(room_specs[2]);
+	a_room->next = NULL;
+	return (a_room);
 }
 
-char	**read_farm()
+t_room	*populate_farm(char **farm_layout, t_ants *my_ants)
 {
 	int		i;
-	int		nbytes;
-	int		farm_size;
-	char	*line;
-	char	**farm_layout;
-	
-	i = 0;
-	nbytes = 0;
-	farm_size = 80;
-	line = (char *)malloc(sizeof(char) * 20);
-	farm_layout = (char **)malloc(sizeof(char *) * farm_size);
-	
-	while ((nbytes = get_next_line(0, &line)))
+	char	**room_specs;
+	t_room	*my_farm;
+	t_room	*runner;
+
+	i = -1;
+	if (ft_isdigit(farm_layout[++i][0]))
+		my_ants->at_start = ft_atoi(farm_layout[i]);
+	else
 	{
-		farm_layout[i] = ft_strdup(line);
-		i++;
-		if (i >= farm_size)
-			farm_layout = ft_remalloc(farm_layout, &farm_size);
+		write(1, "ERROR:why u not specify the number of ant,IDIOT!!GOSH\n", 56);
+		exit(0);
 	}
-	ft_memdel((void **)&line);
-	return (farm_layout);
+	while (farm_layout[++i] && (ft_strcmp(farm_layout[i], "##start") == 0))
+	{
+		room_specs = ft_strsplit(farm_layout[++i], ' ');
+		my_farm = add_room(room_specs, 1);
+		my_farm->ant_stat = my_ants->at_start;
+	}
+	if (!(my_farm->ant_stat))
+	{
+		write(1, "ERROR: why u not specify a start room, IDIOT!!GOSH\n", 51);
+		exit(0);
+	}
+	else
+	{
+		runner = my_farm;
+		i = 0;
+	}
+	while (farm_layout[++i])
+	{
+		if (farm_layout[i][0] == '#')
+			i += 2;
+		room_specs = ft_strsplit(farm_layout[i], ' ');
+		runner->next = add_room(room_specs, 0);
+	}
+	return (my_farm);
 }
 
 int		main(void)
 {
-	t_room	my_farm;
+	t_room	*my_farm;
+	t_ants	my_ants;
 	char	**farm_layout;
+	int		i;
 
+	my_ants.at_start = 0;
+	my_ants.at_end = 0;
 	farm_layout = read_farm();
+	my_farm = populate_farm(farm_layout, &my_ants);
+	i = -1;
+	
+		//while (farm_layout[++i])
+		//printf("%s\n", farm_layout[i]);
 	return (0);
 }
