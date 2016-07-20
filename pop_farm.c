@@ -1,25 +1,15 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jomeirin <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/18 13:37:50 by jomeirin          #+#    #+#             */
-/*   Updated: 2016/07/18 13:37:54 by jomeirin         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "lem_in.h"
-/*
+
 t_room	*add_room(char **room_specs, int room_stat)
 {
 	t_room	*a_room;
-	
-	if (!room_specs[0][0] || !room_specs[1][0] || !room_specs[2][0])
+	int		i;
+
+	i = -1;
+	if (!room_specs[0] || !room_specs[1][0] || !room_specs[2])
 	{
 		write(1, "ERROR: why u not specify a valid room, IDIOT!!GOSH\n", 51);
-		exit(0);
+		//exit(0);
 	}
 	a_room = (t_room *)malloc(sizeof(t_room));
 	a_room->name = room_specs[0];
@@ -29,12 +19,15 @@ t_room	*add_room(char **room_specs, int room_stat)
 	a_room->x = ft_atoi(room_specs[1]);
 	a_room->y = ft_atoi(room_specs[2]);
 	a_room->next = NULL;
+	a_room->tubes = (t_room **)malloc(sizeof(t_room *) * 30);
+	while (++i < 30)
+		a_room->tubes[i] = NULL;
 	return (a_room);
 }
 
 int		ft_is_sum_c(char *what, char c)
 {
-	while (*what)
+	while (what && *what)
 	{
 		if (*what == c)
 			return (1);
@@ -86,6 +79,47 @@ int		get_number_of_ant(char *farm_layout)
 	}
 }
 
+t_room	*find_room(t_room *my_farm, char *room)
+{
+	while (my_farm)
+	{
+		//printf("%s * %s\n", my_farm->name, room);
+		if (ft_strcmp(my_farm->name, room) == 0)
+			return (my_farm);
+		my_farm = my_farm->next;
+		//printf("**%p**\n", my_farm);
+	}
+	return (my_farm);
+}
+
+void	set_links(t_room *my_farm, char *farm_layout)
+{
+	t_room	*from;
+	t_room	*to;
+	char	**rooms;
+	int i;
+
+	i = 0;
+	from = NULL;
+	rooms = ft_strsplit(farm_layout, '-');
+	//printf("%s - %s\n", rooms[0], rooms[1]);
+	if (!(from = find_room(my_farm, rooms[0])) || !(to = find_room(my_farm, rooms[1]) ))
+	{
+		write(1, "couldn't establish (1) link\n", 28);
+		exit(0);
+	}
+	else
+	{
+		while (i < 30 && from->tubes[i])
+			i++;
+		from->tubes[i] = to;
+		i = 0;
+		while (i < 30 && to->tubes[i])
+			i++;
+		to->tubes[i] = from;
+	}
+}
+
 t_room	*populate_farm(char **farm_layout, t_ants *my_ants)
 {
 	int		i;
@@ -116,45 +150,16 @@ t_room	*populate_farm(char **farm_layout, t_ants *my_ants)
 		else
 		{
 			if (ft_is_sum_c(farm_layout[i], '-'))
+				runner->next = last_room;
+			while (ft_is_sum_c(farm_layout[i], '-') && farm_layout[i])
 			{
-				//while (farm_layout[i])
-				//{
-				//	set_links(farm_layout[i]);
-				//}
-				write(1, "awesome", 7);
+				//printf("lay : %s\n", farm_layout[i]);
+				set_links(my_farm, farm_layout[i]);
+				i++;
+				//write(1, "awesome", 7);
 			}
 		}
 	}
-	runner->next = last_room;
+	
 	return (my_farm);
-}
-*/
-int		main(void)
-{
-	t_room	*my_farm;
-	t_room	*runner;
-	t_ants	my_ants;
-	char	**farm_layout;
-	int		i;
-
-	my_ants.at_start = 0;
-	my_ants.at_end = 0;
-	farm_layout = read_farm();
-	i = -1;
-	while (farm_layout[++i])
-		printf("%s\n", farm_layout[i]);
-	my_farm = populate_farm(farm_layout, &my_ants);
-	
-	runner = my_farm;
-	
-	while (runner)
-	{
-		i = -1;
-		printf("\nn-%s :w-%d :s/e-%d :a-%d :x-%d :y-%d", runner->name, runner->weight, runner->s_e_room, runner->ant_stat, runner->x, runner->y);
-		while (runner->tubes[++i])
-			printf(" %d(%s) ", i, runner->tubes[i]->name);
-		runner = runner->next;
-	}
-	printf("\n");
-	return (0);
 }

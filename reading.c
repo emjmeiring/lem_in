@@ -29,6 +29,15 @@ char		**ft_remalloc(char **farm_layout, int *size)
 	return (new_space);
 }
 
+int		validate(char *line)
+{
+	if (!*line)
+	{
+		write(1, "ERROR: data invalid\n", 20);
+		exit(0);
+	}
+	return (1);
+}
 char	**read_farm()
 {
 	int		i;
@@ -47,7 +56,10 @@ char	**read_farm()
 	{
 		if (!(*line == '#' && line[1] != '#'))
 		{
-			farm_layout[i] = ft_strdup(line);
+			if (i == 0)
+				farm_layout[i] = ft_strdup(line);
+			else if (validate(line))
+				farm_layout[i] = ft_strdup(line);
 			i++;
 			if (i >= farm_size)
 				farm_layout = ft_remalloc(farm_layout, &farm_size);

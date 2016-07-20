@@ -24,9 +24,9 @@ PATH_SRC= ./
 
 PATH_HD= -I ./
 
-SRC = $(PATH_SRC)main.c $(PATH_SRC)reading.c
+SRC = $(PATH_SRC)main.c $(PATH_SRC)reading.c $(PATH_SRC)pop_farm.c
 
-OBJ = main.o reading.o
+OBJ = main.o reading.o pop_farm.o
 
 .PHONY: all clean fclean re
 
