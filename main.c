@@ -32,6 +32,7 @@ int		main(void)
 		i++;
 	}
 	set_weights(runner, i);
+	move_dem_ants(my_farm);
 
 	
 	
