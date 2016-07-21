@@ -45,5 +45,6 @@ int			get_number_of_ant(char *farm_layout);
 t_room		*find_room(t_room *my_farm, char *room);
 void		set_links(t_room *my_farm, char *farm_layout);
 t_room		*populate_farm(char **farm_layout, t_ants *my_ants);
+void		set_weights(t_room *room, int weight);
 
 #endif

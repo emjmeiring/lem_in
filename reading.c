@@ -12,6 +12,18 @@
 
 #include "lem_in.h"
 
+void	set_weights(t_room *room, int weight)
+{
+	int i;
+	
+	i = -1;
+	if (room->weight > weight)
+		return ;
+	room->weight = weight;
+	while (room->tubes[++i])
+		set_weights(room->tubes[i], weight - 1);
+}
+
 char		**ft_remalloc(char **farm_layout, int *size)
 {
 	int		i;
