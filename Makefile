@@ -14,7 +14,7 @@ NAME=lem_in
 
 CC=gcc
 
-FLAG=-Wall -Wextra -g#-Werror
+FLAG=-Wall -Wextra -g -Werror
 
 RM=rm -f
 
@@ -38,7 +38,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 		@echo "Linking objects with the libraries..."
-		@make re -C libft/
+#@make re -C libft/
 		@$(CC) $(FLAG) $(OBJ) -o $@ $(PATH_HD) $(INC)
 		@echo "\033[32mDone!\033[0m\nManufactured\t\033[31m$@\033[0m..."
 

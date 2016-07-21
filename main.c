@@ -129,6 +129,19 @@ t_room	*populate_farm(char **farm_layout, t_ants *my_ants)
 	return (my_farm);
 }
 */
+
+void	set_weights(t_room *room, int weight)
+{
+	int i;
+	
+	i = -1;
+	if (room->weight > weight)
+		return ;
+	room->weight = weight;
+	while (room->tubes[++i])
+		set_weights(room->tubes[i], weight - 1);
+}
+
 int		main(void)
 {
 	t_room	*my_farm;
@@ -140,13 +153,23 @@ int		main(void)
 	my_ants.at_start = 0;
 	my_ants.at_end = 0;
 	farm_layout = read_farm();
+	my_farm = populate_farm(farm_layout, &my_ants);
+	i = 1;
+	runner = my_farm;
+	while (runner->next)
+	{
+		runner = runner->next;
+		i++;
+	}
+	printf("____%d_____", i);
+	set_weights(runner, i);
+
+	
+	
 	i = -1;
 	while (farm_layout[++i])
 		printf("%s\n", farm_layout[i]);
-	my_farm = populate_farm(farm_layout, &my_ants);
-	
 	runner = my_farm;
-	
 	while (runner)
 	{
 		i = -1;

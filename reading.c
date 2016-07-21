@@ -38,6 +38,7 @@ int		validate(char *line)
 	}
 	return (1);
 }
+
 char	**read_farm()
 {
 	int		i;
@@ -47,12 +48,12 @@ char	**read_farm()
 	char	**farm_layout;
 	
 	i = 0;
-	nbytes = 0;
+	nbytes = open("map", O_RDONLY);
 	farm_size = 2000;
 	line = (char *)malloc(sizeof(char) * 20);
 	farm_layout = (char **)malloc(sizeof(char *) * farm_size);
 					//needs to tested while loop
-	while (get_next_line(0, &line))
+	while (get_next_line(nbytes, &line))
 	{
 		if (!(*line == '#' && line[1] != '#'))
 		{
