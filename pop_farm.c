@@ -25,17 +25,6 @@ t_room	*add_room(char **room_specs, int room_stat)
 	return (a_room);
 }
 
-int		ft_is_sum_c(char *what, char c)
-{
-	while (what && *what)
-	{
-		if (*what == c)
-			return (1);
-		what++;
-	}
-	return (0);
-}
-
 t_room	*find_start_end(char **farm_layout,char **room_specs, char *room)
 {
 	int i;
@@ -77,19 +66,6 @@ int		get_number_of_ant(char *farm_layout)
 		write(1, "ERROR:why u not specify the number of ant,IDIOT!!GOSH\n", 56);
 		exit(0);
 	}
-}
-
-t_room	*find_room(t_room *my_farm, char *room)
-{
-	while (my_farm)
-	{
-		//printf("%s * %s\n", my_farm->name, room);
-		if (ft_strcmp(my_farm->name, room) == 0)
-			return (my_farm);
-		my_farm = my_farm->next;
-		//printf("**%p**\n", my_farm);
-	}
-	return (my_farm);
 }
 
 void	set_links(t_room *my_farm, char *farm_layout)

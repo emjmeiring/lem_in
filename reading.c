@@ -12,6 +12,30 @@
 
 #include "lem_in.h"
 
+t_room	*find_room(t_room *my_farm, char *room)
+{
+	while (my_farm)
+	{
+		//printf("%s * %s\n", my_farm->name, room);
+		if (ft_strcmp(my_farm->name, room) == 0)
+			return (my_farm);
+		my_farm = my_farm->next;
+		//printf("**%p**\n", my_farm);
+	}
+	return (my_farm);
+}
+
+int		ft_is_sum_c(char *what, char c)
+{
+	while (what && *what)
+	{
+		if (*what == c)
+			return (1);
+		what++;
+	}
+	return (0);
+}
+
 void	set_weights(t_room *room, int weight)
 {
 	int i;

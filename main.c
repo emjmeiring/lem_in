@@ -32,20 +32,21 @@ int		main(void)
 		i++;
 	}
 	set_weights(runner, i);
+	i = -1;
+	while (farm_layout[++i])
+		printf("%s\n", farm_layout[i]);
 	move_dem_ants(my_farm);
 
 	
 	
-	i = -1;
-	while (farm_layout[++i])
-		printf("%s\n", farm_layout[i]);
+	
 	runner = my_farm;
 	while (runner)
 	{
 		i = -1;
 		printf("\nn-%s :w-%d :s/e-%d :a-%d :x-%d :y-%d", runner->name, runner->weight, runner->s_e_room, runner->ant_stat, runner->x, runner->y);
 		while (runner->tubes[++i])
-			printf(" %d(%s) ", i, runner->tubes[i]->name);
+			printf("\t%d(%s) ", i, runner->tubes[i]->name);
 		runner = runner->next;
 	}
 	printf("\n");
