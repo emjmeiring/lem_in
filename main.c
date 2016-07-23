@@ -35,6 +35,7 @@ int		main(void)
 	i = -1;
 	while (farm_layout[++i])
 		printf("%s\n", farm_layout[i]);
+	printf("\n");
 	move_dem_ants(my_farm);
 
 	

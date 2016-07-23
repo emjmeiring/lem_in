@@ -116,8 +116,8 @@ t_room	*populate_farm(char **farm_layout, t_ants *my_ants)
 	while (farm_layout[++i])
 	{
 		if (farm_layout[i][0] == '#')
-			i += 2;
-		if (ft_is_sum_c(farm_layout[i], ' '))
+			i += 1;
+		else if (ft_is_sum_c(farm_layout[i], ' '))
 		{
 			room_specs = ft_strsplit(farm_layout[i], ' ');
 			runner->next = add_room(room_specs, 0);
