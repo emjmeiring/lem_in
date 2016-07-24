@@ -22,6 +22,8 @@ t_room	*add_room(char **room_specs, int room_stat)
 	a_room->tubes = (t_room **)malloc(sizeof(t_room *) * 30);
 	while (++i < 30)
 		a_room->tubes[i] = NULL;
+	free(*(room_specs + 1));
+	free(*(room_specs + 2));
 	return (a_room);
 }
 

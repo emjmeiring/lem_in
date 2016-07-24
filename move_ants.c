@@ -28,6 +28,8 @@ int		get_best_tube(t_room *my_farm)
 			max_weight = my_farm->tubes[i]->weight;
 			max_i = i;
 		}
+		if (my_farm->tubes[i]->s_e_room == 2)
+			return (i);
 	}
 	return (max_i);
 }
@@ -39,7 +41,7 @@ int		move_ants_onwards(t_room *room)
 	right_tube = get_best_tube(room);
 	if (room->tubes[right_tube]->ant_stat > 0 && !(room->tubes[right_tube]->s_e_room == 2))
 		move_ants_onwards(room->tubes[right_tube]);
-	if ((room->tubes[right_tube]->ant_stat == 0))
+	if (room->tubes[right_tube]->ant_stat == 0)
 	{
 		room->tubes[right_tube]->ant_stat += room->ant_stat;
 		printf("L%d-%s ", room->ant_stat, room->tubes[right_tube]->name);
